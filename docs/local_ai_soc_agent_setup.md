@@ -4,7 +4,7 @@
 This project documents and stores the working prototype of a **local AI SOC analyst** built using n8n and Ollama. It automates SOC incident analysis using local generative AI.
 
 ## Architecture Diagram
-Manual Alert → n8n Workflow → Ollama Local AI → SOC Incident Analysis
+Manual Alert → Classification → n8n Workflow → Playbook Selection → Ollama Local AI → SOC Incident Analysis
 
 ## Technologies Used
 * **n8n**: Workflow automation

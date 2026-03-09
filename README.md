@@ -201,7 +201,13 @@ Attack simulations generate logs that the monitoring system detects and analyzes
 The repository currently contains a working **AI-powered SOC alert analyzer** using a local LLM and n8n automation.
 
 **Architecture:**
-Manual Trigger → Alert Data → n8n → Ollama → SOC Analysis
+Manual Trigger → Alert Classification → n8n → Playbook Selection → Ollama → SOC Analysis
+
+---
+
+## Alert Classification
+
+Alerts are automatically classified into logical categories (e.g., brute force, phishing, malware) before being analyzed by the AI model based on key indicator words. This classification allows the AI to apply the appropriate SOC playbook directly and generate more accurate, context-aware incident response recommendations.
 
 ---
 
