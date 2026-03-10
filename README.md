@@ -23,21 +23,7 @@ This project demonstrates how **AI and automation can assist SOC teams in detect
 
 ## System Architecture
 
-Attack Simulation (Kali Linux VM)
-↓
-Target Machine Logs (Linux / Windows)
-↓
-Python Log Monitoring Script
-↓
-Alert Generation
-↓
-SOC AI Analyst Agent
-↓
-SOC Playbook Matching
-↓
-MITRE ATT&CK Mapping
-↓
-Incident Response Recommendation
+Wazuh → `alerts.json` → `log_monitor.py` → AI SOC Agent (`soc_agent.py`) → MITRE mapping & Playbook loader → Dashboard (`dashboard.py`)
 
 ---
 
@@ -47,25 +33,35 @@ Incident Response Recommendation
 soc-ai-analyst-agent
 │
 ├── agent
-│   └── soc_agent.py
+│   ├── soc_agent.py
+│   ├── alert_classifier.py
+│   └── playbook_loader.py
 │
 ├── monitoring
-│   └── log_monitor.py
+│   ├── log_monitor.py
+│   └── n8n_soc_ai_workflow.json
 │
 ├── playbooks
-│   └── soc_playbook.json
+│   ├── brute_force_playbook.md
+│   ├── malware_playbook.md
+│   ├── phishing_playbook.md
+│   ├── privilege_escalation_playbook.md
+│   └── lateral_movement_playbook.md
 │
 ├── alerts
 │   └── alerts.json
 │
 ├── attack_simulation
-│   └── attack_notes.md
+│   ├── attack_notes.md
+│   └── simulate_brute_force.sh
 │
 ├── dashboard
-│   └── dashboard.py
+│   ├── dashboard.py
+│   └── analyzed_alerts.json (Generated)
 │
 ├── docs
-│   └── architecture.md
+│   ├── architecture.md
+│   └── local_ai_soc_agent_setup.md
 │
 ├── requirements.txt
 └── README.md
@@ -176,12 +172,39 @@ A dashboard may be added to visualize:
 
 ---
 
-## Lab Setup
+## Lab Setup & Installation
 
-Attacker Machine: Kali Linux
-Target Machine: Ubuntu / Windows
+**1. Install Python Dependencies**
+```bash
+pip install -r requirements.txt
+```
 
-Attack simulations generate logs that the monitoring system detects and analyzes.
+**2. Setup Wazuh (Optional but recommended)**
+- Install the Wazuh manager and configure agents.
+- Ensure alerts are logged in line-separated JSON format to `alerts/alerts.json`.
+
+**3. Set up n8n**
+- Run `npx n8n`
+- Import the `monitoring/n8n_soc_ai_workflow.json` workflow.
+
+**4. Set up Ollama**
+- Install Ollama from [ollama.com](https://ollama.com).
+- Pull the model: `ollama run llama3` (Ensure it is running locally on port 11434).
+
+**5. Start the Agent & Monitor**
+```bash
+python monitoring/log_monitor.py
+```
+
+**6. Start the Dashboard**
+```bash
+streamlit run dashboard/dashboard.py
+```
+
+**7. Run an Attack Simulation**
+```bash
+bash attack_simulation/simulate_brute_force.sh
+```
 
 ---
 

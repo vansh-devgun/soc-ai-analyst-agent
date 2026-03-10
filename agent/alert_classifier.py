@@ -11,6 +11,10 @@ def classify_alert(alert_description: str) -> str:
         return "phishing"
     elif any(keyword in alert_lower for keyword in ["malware", "trojan", "virus"]):
         return "malware"
+    elif any(keyword in alert_lower for keyword in ["privilege", "root", "sudo", "escalation"]):
+        return "privilege_escalation"
+    elif any(keyword in alert_lower for keyword in ["lateral", "smb", "rdp", "pass-the-hash"]):
+        return "lateral_movement"
     else:
         return "unknown"
 

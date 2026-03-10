@@ -4,7 +4,7 @@ import sys
 
 def load_playbook(alert_type: str) -> str:
     """Loads the appropriate SOC playbook based on alert class."""
-    if alert_type not in ["brute_force", "phishing", "malware"]:
+    if alert_type not in ["brute_force", "phishing", "malware", "privilege_escalation", "lateral_movement"]:
         return "No specific playbook found for this alert type. Analyze generally."
     
     # We are under the agent/ directory typically, so go up one level to playbooks/
